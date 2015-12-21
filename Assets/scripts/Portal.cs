@@ -10,7 +10,11 @@ public class Portal : MonoBehaviour {
         if (!canPort)
         {
 
-            if (otherCol.gameObject.tag == "Player" && target != null)
+            if (otherCol.gameObject.tag == "Player" && otherCol.gameObject.GetComponent<SpriteRenderer>().color == this.gameObject.GetComponent<ParticleSystem>().startColor)  
+            {
+                target.GetComponent<Portal>().canPort = true;
+                otherCol.gameObject.transform.position = new Vector2(target.transform.position.x, target.transform.position.y);
+            } else if (otherCol.gameObject.tag == "Player" && this.gameObject.GetComponent<ParticleSystem>().startColor == Color.white)
             {
                 target.GetComponent<Portal>().canPort = true;
                 otherCol.gameObject.transform.position = new Vector2(target.transform.position.x, target.transform.position.y);
