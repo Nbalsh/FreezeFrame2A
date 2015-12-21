@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 
-	void Die()
+	public void Die()
 	{
 		Instantiate (deathParticles, transform.position, Quaternion.Euler (270, 0, 0));
 		transform.position = spawn;
@@ -115,4 +115,5 @@ public class PlayerController : MonoBehaviour {
 	{
 		spawn = position;
 	}
+
 }
