@@ -9,7 +9,7 @@ public class Camera2DFollow : MonoBehaviour {
 	public float lookAheadReturnSpeed = 0.5f;
 	public float lookAheadMoveThreshold = 0.1f;
     public float previewCameraTimer = 2.0f;
-    public bool isPreviewing = true;
+    public bool isPreviewing;
 	
 	private float offsetZ;
 	private Vector3 lastTargetPosition;
@@ -17,7 +17,7 @@ public class Camera2DFollow : MonoBehaviour {
 	private Vector3 lookAheadPos;
 
 
-
+    public GameObject canvas;
     public PathDefinition Path;
     public float Speed = 10;
     public float MaxDistancToGoal = 0.1f;
@@ -54,6 +54,7 @@ public class Camera2DFollow : MonoBehaviour {
     }
         else {
             // only update lookahead pos if accelerating or changed direction
+            canvas.SetActive(true);
             float xMoveDelta = (target.position - lastTargetPosition).x;
 
             bool updateLookAheadTarget = Mathf.Abs(xMoveDelta) > lookAheadMoveThreshold;
