@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour {
 			transform.position = spawn;
 			GameObject frozenPlayerGO = Instantiate(frozenPlayer, positionToSpawn, Quaternion.Euler(0, 0, 0)) as GameObject;
 			frozenPlayers.Add(frozenPlayerGO);
-			Debug.Log("frozenPlayers.Count: " + frozenPlayers.Count);
+			//Debug.Log("frozenPlayers.Count: " + frozenPlayers.Count);
 		}
 		else
 		{
@@ -115,5 +115,21 @@ public class PlayerController : MonoBehaviour {
 	{
 		spawn = position;
 	}
+
+    private void OnTriggerEnter2D(Collider2D c)
+    {
+        if (c.transform.name == "Platform")
+        {
+            transform.parent = c.transform;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D c)
+    {
+        if (c.transform.name == "Platform")
+        {
+            transform.parent = null;
+        }
+    }
 
 }
