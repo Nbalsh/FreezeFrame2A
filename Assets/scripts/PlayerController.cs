@@ -13,8 +13,12 @@ public class PlayerController : MonoBehaviour {
 
 	bool isGrounded = false;
 
-	// old scripts
-	public GameObject frozenPlayer;
+    PressureButton[] pressureButtons;
+
+    private int AMOUNT_OF_FROZEN_PLAYERS = 5;
+
+    // old scripts
+    public GameObject frozenPlayer;
 	List<GameObject> frozenPlayers;
 	private Vector2 spawn;
 	public GameObject deathParticles;
@@ -26,10 +30,13 @@ public class PlayerController : MonoBehaviour {
 		tagGroundLeft = GameObject.Find (this.name + "/tag_Ground_Left").transform;
 		tagGroundRight = GameObject.Find (this.name + "/tag_Ground_Right").transform;
 
-		frozenPlayers = new List<GameObject>(5);
+		frozenPlayers = new List<GameObject>(AMOUNT_OF_FROZEN_PLAYERS);
 		spawn = transform.position;
 
-	}
+        pressureButtons = FindObjectsOfType(typeof(PressureButton)) as PressureButton[];
+        Debug.Log("num of pressure buttons: " + pressureButtons.Length);
+
+    }
 	
 
 	void FixedUpdate () {
@@ -81,23 +88,30 @@ public class PlayerController : MonoBehaviour {
 	{
 		if(frozenPlayers.Count < 5)
 		{
-			Vector3 positionToSpawn = transform.position;
-			transform.position = spawn;
-			GameObject frozenPlayerGO = Instantiate(frozenPlayer, positionToSpawn, Quaternion.Euler(0, 0, 0)) as GameObject;
+            GameObject frozenPlayerGO = newFrozenPlayer();
 			frozenPlayers.Add(frozenPlayerGO);
 			//Debug.Log("frozenPlayers.Count: " + frozenPlayers.Count);
 		}
 		else
 		{
-			frozenPlayers[0].GetComponent<FrozenPlayer>().Die();
-			frozenPlayers.RemoveAt(0);
-			Vector3 positionToSpawn = transform.position;
-			transform.position = spawn;
-			GameObject frozenPlayerGO = Instantiate(frozenPlayer, positionToSpawn, Quaternion.Euler(0, 0, 0)) as GameObject;
+            
+            for(int i = 0; i < pressureButtons.Length; i++)
+            {
+                pressureButtons[i].GetComponent<PressureButton>().shouldBeTriggered();
+            }
+            frozenPlayers[0].GetComponent<FrozenPlayer>().Die();
+            frozenPlayers.RemoveAt(0);
+            GameObject frozenPlayerGO = newFrozenPlayer();
 			frozenPlayers.Add(frozenPlayerGO);
 		}
 	}
 
+    private GameObject newFrozenPlayer()
+    {
+        Vector3 positionToSpawn = transform.position;
+        transform.position = spawn;
+        return Instantiate(frozenPlayer, positionToSpawn, Quaternion.Euler(0, 0, 0)) as GameObject;
+    }
 
 	public void Die()
 	{

@@ -4,11 +4,10 @@ using System.Collections.Generic;
 
 public class Camera2DFollow : MonoBehaviour {
 	public Transform target;
-	public float damping = 1;
-	public float lookAheadFactor = 3;
+	public float damping = 0.4f;
+	public float lookAheadFactor = 2;
 	public float lookAheadReturnSpeed = 0.5f;
 	public float lookAheadMoveThreshold = 0.1f;
-    public float previewCameraTimer = 2.0f;
     public bool isPreviewing;
 	
 	private float offsetZ;
@@ -19,8 +18,8 @@ public class Camera2DFollow : MonoBehaviour {
 
     public GameObject canvas;
     public PathDefinition Path;
-    public float Speed = 10;
-    public float MaxDistancToGoal = 0.1f;
+    public float Speed = 15;
+    public float MaxDistancToGoal = 0.5f;
 
     private IEnumerator<Transform> currentCameraPointPreview;
 
@@ -46,7 +45,6 @@ public class Camera2DFollow : MonoBehaviour {
 	{   // preview level only
         if (isPreviewing)
         {
-            previewCameraTimer -= Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, currentCameraPointPreview.Current.position, Time.deltaTime * Speed);
             var distanceSquared = (transform.position - currentCameraPointPreview.Current.position).sqrMagnitude;
             if (distanceSquared < MaxDistancToGoal * MaxDistancToGoal)
