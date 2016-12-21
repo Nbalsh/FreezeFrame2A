@@ -43,8 +43,10 @@ public class PlayerController : MonoBehaviour {
 		isGrounded = isGroundedA ();
 
 #if !UNITY_ANDROID
-		Move (Input.GetAxisRaw("Horizontal"));
-		if(Input.GetButtonDown("Jump")){
+        float hInput = Input.GetAxis("Horizontal");
+        //Move (Input.GetAxis("Horizontal"));
+        Move(hInput);
+        if (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.W)){
 			Jump ();
 		}
 #endif
